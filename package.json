@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint \"src/**/*.{ts,tsx}\" --report-unused-disable-directives",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "repopack": "npx repopack  --style xml --ignore 'node_modules,lib,.git,dist,.gitignore'"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
