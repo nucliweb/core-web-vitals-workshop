@@ -20,11 +20,13 @@ export interface Product {
   badge?: string;
 }
 
-export interface ProductFilters {
+export interface Filters {
   type?: string[];
   brand?: string[];
   priceRange?: [number, number];
   condition?: string[];
+  inStock?: boolean;
+  badge?: string[];
 }
 
 export interface SortOption {

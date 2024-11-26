@@ -13,6 +13,8 @@ interface Filters {
   brand?: string[];
   priceRange?: [number, number];
   condition?: string[];
+  inStock?: boolean;
+  badge?: string[];
 }
 
 export function FiltersSidebar({
@@ -24,35 +26,14 @@ export function FiltersSidebar({
   const types = Array.from(new Set(products.map((p) => p.type)));
   const brands = Array.from(new Set(products.map((p) => p.brand)));
   const conditions = Array.from(new Set(products.map((p) => p.condition)));
+  const badges = Array.from(
+    new Set(products.map((p) => p.badge).filter(Boolean))
+  ) as string[];
 
   // Obtener rango de precios
   const prices = products.map((p) => p.price);
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
-
-  const handleTypeChange = (type: string, checked: boolean) => {
-    const currentTypes = filters.type || [];
-    const newTypes = checked
-      ? [...currentTypes, type]
-      : currentTypes.filter((t) => t !== type);
-    setFilters({ ...filters, type: newTypes });
-  };
-
-  const handleBrandChange = (brand: string, checked: boolean) => {
-    const currentBrands = filters.brand || [];
-    const newBrands = checked
-      ? [...currentBrands, brand]
-      : currentBrands.filter((b) => b !== brand);
-    setFilters({ ...filters, brand: newBrands });
-  };
-
-  const handleConditionChange = (condition: string, checked: boolean) => {
-    const currentConditions = filters.condition || [];
-    const newConditions = checked
-      ? [...currentConditions, condition]
-      : currentConditions.filter((c) => c !== condition);
-    setFilters({ ...filters, condition: newConditions });
-  };
 
   return (
     <div className="space-y-6">
@@ -67,7 +48,13 @@ export function FiltersSidebar({
                 id={`type-${type}`}
                 className="accent-primary"
                 checked={filters.type?.includes(type) || false}
-                onChange={(e) => handleTypeChange(type, e.target.checked)}
+                onChange={(e) => {
+                  const currentTypes = filters.type || [];
+                  const newTypes = e.target.checked
+                    ? [...currentTypes, type]
+                    : currentTypes.filter((t) => t !== type);
+                  setFilters({ ...filters, type: newTypes });
+                }}
               />
               <label htmlFor={`type-${type}`} className="text-sm capitalize">
                 {type}
@@ -88,7 +75,13 @@ export function FiltersSidebar({
                 id={`brand-${brand}`}
                 className="accent-primary"
                 checked={filters.brand?.includes(brand) || false}
-                onChange={(e) => handleBrandChange(brand, e.target.checked)}
+                onChange={(e) => {
+                  const currentBrands = filters.brand || [];
+                  const newBrands = e.target.checked
+                    ? [...currentBrands, brand]
+                    : currentBrands.filter((b) => b !== brand);
+                  setFilters({ ...filters, brand: newBrands });
+                }}
               />
               <label htmlFor={`brand-${brand}`} className="text-sm">
                 {brand}
@@ -109,9 +102,13 @@ export function FiltersSidebar({
                 id={`condition-${condition}`}
                 className="accent-primary"
                 checked={filters.condition?.includes(condition) || false}
-                onChange={(e) =>
-                  handleConditionChange(condition, e.target.checked)
-                }
+                onChange={(e) => {
+                  const currentConditions = filters.condition || [];
+                  const newConditions = e.target.checked
+                    ? [...currentConditions, condition]
+                    : currentConditions.filter((c) => c !== condition);
+                  setFilters({ ...filters, condition: newConditions });
+                }}
               />
               <label
                 htmlFor={`condition-${condition}`}
@@ -121,6 +118,54 @@ export function FiltersSidebar({
               </label>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Badge Filter */}
+      {badges.length > 0 && (
+        <div>
+          <h3 className="mb-4 font-medium">Special Offers</h3>
+          <div className="space-y-3">
+            {badges.map((badge) => (
+              <div key={badge} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id={`badge-${badge}`}
+                  className="accent-primary"
+                  checked={filters.badge?.includes(badge) || false}
+                  onChange={(e) => {
+                    const currentBadges = filters.badge || [];
+                    const newBadges = e.target.checked
+                      ? [...currentBadges, badge]
+                      : currentBadges.filter((b) => b !== badge);
+                    setFilters({ ...filters, badge: newBadges });
+                  }}
+                />
+                <label htmlFor={`badge-${badge}`} className="text-sm">
+                  {badge}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Stock Filter */}
+      <div>
+        <h3 className="mb-4 font-medium">Availability</h3>
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="inStock"
+            className="accent-primary"
+            checked={filters.inStock || false}
+            onChange={(e) => {
+              setFilters({ ...filters, inStock: e.target.checked });
+            }}
+          />
+          <label htmlFor="inStock" className="text-sm">
+            In Stock Only
+          </label>
         </div>
       </div>
 

@@ -3,39 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Camera, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-// Datos de ejemplo - Luego podrían venir de una API
-const featuredProducts = [
-  {
-    id: 1,
-    name: 'Leica M6',
-    description: 'Classic rangefinder camera, newly remastered',
-    price: 2999,
-    image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd',
-    badge: 'Bestseller',
-    type: 'vintage',
-  },
-  {
-    id: 2,
-    name: 'Hasselblad 500C/M',
-    description: 'Medium format film camera with waist-level finder',
-    price: 3499,
-    image: 'https://images.unsplash.com/photo-1641414074870-78b70bb32369',
-    badge: 'Limited',
-    type: 'vintage', // Corregido a vintage
-  },
-  {
-    id: 3,
-    name: 'Rolleiflex 2.8F',
-    description: 'Twin-lens reflex camera in pristine condition',
-    price: 2499,
-    image: 'https://images.unsplash.com/photo-1495121553079-4c61bcce1894',
-    badge: 'Rare',
-    type: 'vintage',
-  },
-];
+import { products } from '@/lib/data/products';
 
 export function FeaturedProducts() {
+  const featuredProducts = products
+    .filter((product) => product.featured)
+    .slice(0, 3);
   return (
     <section className="bg-muted/50 py-16 md:py-24">
       <div className="container">

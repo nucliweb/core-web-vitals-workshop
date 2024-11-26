@@ -130,6 +130,39 @@ export function ActiveFilters({
             </Badge>
           )}
 
+          {filters.badge?.map((badge) => (
+            <Badge
+              key={badge}
+              variant="secondary"
+              className="inline-flex h-7 items-center gap-1 px-3 text-sm"
+            >
+              Special Offer: {badge}
+              <button
+                onClick={() => removeFilter('badge', badge)}
+                className="ml-1 rounded-full hover:text-primary"
+              >
+                <X className="h-3 w-3" />
+                <span className="sr-only">Remove {badge} filter</span>
+              </button>
+            </Badge>
+          ))}
+
+          {filters.inStock && (
+            <Badge
+              variant="secondary"
+              className="inline-flex h-7 items-center gap-1 px-3 text-sm"
+            >
+              In Stock Only
+              <button
+                onClick={() => setFilters({ ...filters, inStock: undefined })}
+                className="ml-1 rounded-full hover:text-primary"
+              >
+                <X className="h-3 w-3" />
+                <span className="sr-only">Remove in stock filter</span>
+              </button>
+            </Badge>
+          )}
+
           {(hasActiveFilters || searchTerm) && (
             <Button
               variant="ghost"
