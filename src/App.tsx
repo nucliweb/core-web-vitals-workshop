@@ -1,16 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RootLayout } from '@/components/layout/RootLayout';
+import HomePage from '@/pages/home/HomePage';
+import ProductsPage from '@/pages/products/ProductsPage';
 
 function App() {
   return (
     <Router>
       <RootLayout>
         <Routes>
-          <Route path="/" element={<div>Home Page (coming soon)</div>} />
-          <Route
-            path="/products"
-            element={<div>Products Page (coming soon)</div>}
-          />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductsPage />} />
           <Route
             path="/collections"
             element={<div>Collections Page (coming soon)</div>}
