@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -9,6 +9,9 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { ProductGrid } from '@/components/products/ProductGrid/ProductGrid';
+import { FiltersSidebar } from '@/components/products/FiltersSidebar/FiltersSidebar';
+import { ActiveFilters } from '@/components/products/ActiveFilters/ActiveFilters';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Sheet,
@@ -234,14 +237,82 @@ export default function ProductsPage() {
   const [sort, setSort] = useState('newest');
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Aplicar filtros y búsqueda
+  const filteredProducts = useMemo(() => {
+    return mockProducts.filter((product) => {
+      // Aplicar término de búsqueda
+      if (searchTerm) {
+        const searchLower = searchTerm.toLowerCase();
+        const matchesSearch =
+          product.name.toLowerCase().includes(searchLower) ||
+          product.brand.toLowerCase().includes(searchLower) ||
+          product.description.toLowerCase().includes(searchLower);
+
+        if (!matchesSearch) return false;
+      }
+
+      // Filtrar por tipo
+      if (filters.type?.length && !filters.type.includes(product.type)) {
+        return false;
+      }
+
+      // Filtrar por marca
+      if (filters.brand?.length && !filters.brand.includes(product.brand)) {
+        return false;
+      }
+
+      // Filtrar por condición
+      if (
+        filters.condition?.length &&
+        !filters.condition.includes(product.condition)
+      ) {
+        return false;
+      }
+
+      // Filtrar por rango de precio
+      if (filters.priceRange) {
+        const [min, max] = filters.priceRange;
+        if (product.price < min || product.price > max) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [mockProducts, filters, searchTerm]);
+
+  // Ordenar productos
+  const sortedProducts = useMemo(() => {
+    return [...filteredProducts].sort((a, b) => {
+      switch (sort) {
+        case 'price_asc':
+          return a.price - b.price;
+        case 'price_desc':
+          return b.price - a.price;
+        case 'newest':
+          // Si el año no está definido, tratar como el más antiguo
+          const yearA = a.year || 0;
+          const yearB = b.year || 0;
+          return yearB - yearA;
+        default:
+          return 0;
+      }
+    });
+  }, [filteredProducts, sort]);
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-8">
-        {/* Header */}
+        {/* Header con contador de resultados */}
         <div className="mb-8 flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
           <div>
             <h1 className="font-serif text-3xl font-bold tracking-tight">
               All Cameras
+              {sortedProducts.length > 0 && (
+                <span className="ml-2 text-lg font-normal text-muted-foreground">
+                  ({sortedProducts.length} items)
+                </span>
+              )}
             </h1>
             <p className="mt-1 text-muted-foreground">
               Browse our collection of vintage and professional cameras
@@ -283,7 +354,11 @@ export default function ProductsPage() {
                   <SheetTitle>Filters</SheetTitle>
                 </SheetHeader>
                 <ScrollArea className="h-[calc(100vh-8rem)]">
-                  <FiltersSidebar filters={filters} setFilters={setFilters} />
+                  <FiltersSidebar
+                    products={mockProducts}
+                    filters={filters}
+                    setFilters={setFilters}
+                  />
                 </ScrollArea>
               </SheetContent>
             </Sheet>
@@ -294,85 +369,47 @@ export default function ProductsPage() {
         <div className="grid gap-8 md:grid-cols-[220px_1fr]">
           {/* Desktop Filters */}
           <aside className="hidden md:block">
-            <FiltersSidebar filters={filters} setFilters={setFilters} />
+            <FiltersSidebar
+              products={mockProducts}
+              filters={filters}
+              setFilters={setFilters}
+            />
           </aside>
 
-          {/* Product Grid */}
+          {/* Product Grid con ActiveFilters */}
           <main>
-            <ProductGrid products={mockProducts} />
-          </main>
-        </div>
-      </div>
-    </div>
-  );
-}
+            <ActiveFilters
+              filters={filters}
+              setFilters={setFilters}
+              totalResults={sortedProducts.length}
+              searchTerm={searchTerm}
+              onClearSearch={() => setSearchTerm('')}
+            />
 
-// Componente de Filtros
-function FiltersSidebar({ filters, setFilters }: FiltersSidebarProps) {
-  return (
-    <div className="space-y-6">
-      {/* Type Filter */}
-      <div>
-        <h3 className="mb-4 font-medium">Type</h3>
-        <div className="space-y-3">
-          {['Vintage', 'Professional', 'Collector'].map((type) => (
-            <div key={type} className="flex items-center space-x-2">
-              <input type="checkbox" id={type} className="accent-primary" />
-              <label htmlFor={type} className="text-sm">
-                {type}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Brand Filter */}
-      <div>
-        <h3 className="mb-4 font-medium">Brand</h3>
-        <div className="space-y-3">
-          {['Leica', 'Hasselblad', 'Rolleiflex', 'Nikon', 'Canon'].map(
-            (brand) => (
-              <div key={brand} className="flex items-center space-x-2">
-                <input type="checkbox" id={brand} className="accent-primary" />
-                <label htmlFor={brand} className="text-sm">
-                  {brand}
-                </label>
+            {sortedProducts.length > 0 ? (
+              <ProductGrid products={sortedProducts} />
+            ) : (
+              <div className="flex min-h-[400px] items-center justify-center text-center">
+                <div className="max-w-md space-y-2">
+                  <h3 className="text-lg font-medium">No products found</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Try adjusting your filters or search term.
+                  </p>
+                  <Button
+                    variant="outline"
+                    className="mt-4"
+                    onClick={() => {
+                      setFilters({});
+                      setSearchTerm('');
+                      setSort('newest');
+                    }}
+                  >
+                    Reset all filters
+                  </Button>
+                </div>
               </div>
-            )
-          )}
-        </div>
-      </div>
-
-      {/* Condition Filter */}
-      <div>
-        <h3 className="mb-4 font-medium">Condition</h3>
-        <div className="space-y-3">
-          {['Mint', 'Excellent', 'Good', 'Fair'].map((condition) => (
-            <div key={condition} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id={condition}
-                className="accent-primary"
-              />
-              <label htmlFor={condition} className="text-sm">
-                {condition}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Price Range */}
-      <div>
-        <h3 className="mb-4 font-medium">Price Range</h3>
-        <div className="grid gap-4">
-          <div className="grid grid-cols-2 gap-2">
-            <Input type="number" placeholder="Min" className="h-8" />
-            <Input type="number" placeholder="Max" className="h-8" />
-          </div>
-          <Button variant="outline" size="sm" className="w-full">
-            Apply
-          </Button>
+            )}
+          </main>
         </div>
       </div>
     </div>
