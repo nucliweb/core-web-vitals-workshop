@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Camera, ShoppingCart, Menu } from 'lucide-react';
+import { Camera, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -12,6 +12,7 @@ import {
 import { MainNav } from './MainNav';
 import { MobileNav } from './MobileNav';
 import { useState } from 'react';
+import { CartButton } from '@/components/cart/CartButton';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,10 +46,7 @@ export function Header() {
         <MainNav className="hidden md:flex" />
 
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <Button variant="ghost" size="icon">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="sr-only">Shopping cart</span>
-          </Button>
+          <CartButton />
         </div>
       </div>
     </header>

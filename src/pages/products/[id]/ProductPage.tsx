@@ -2,8 +2,8 @@ import { useParams } from 'react-router-dom';
 import { products } from '@/lib/data/products';
 import { ProductGallery } from '@/components/products/ProductGallery/ProductGallery';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Camera, ShoppingCart } from 'lucide-react';
+import { Camera } from 'lucide-react';
+import { AddToCartButton } from '@/components/cart/AddToCartButton';
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -55,21 +55,32 @@ export default function ProductPage() {
           </div>
 
           <div className="mt-6">
-            <span className="text-3xl font-bold">
-              ${product.price.toLocaleString()}
-            </span>
+            <p className="text-3xl font-bold">${product.price.toLocaleString()}</p>
           </div>
 
-          <p className="mt-6 text-muted-foreground">{product.description}</p>
-
-          <div className="mt-6">
-            <Button size="lg" className="w-full gap-2 md:w-auto">
-              <ShoppingCart className="h-5 w-5" />
-              Add to Cart
-            </Button>
+          <div className="mt-4">
+            <p className="text-muted-foreground">{product.description}</p>
           </div>
 
-          {/* Aquí irá el Accordion con las especificaciones */}
+          {/* Especificaciones */}
+          <div className="mt-8">
+            <h2 className="text-lg font-semibold">Specifications</h2>
+            <dl className="mt-4 grid gap-4 text-sm">
+              {Object.entries(product.specs).map(([key, value]) => (
+                <div key={key} className="grid grid-cols-2">
+                  <dt className="font-medium text-muted-foreground capitalize">
+                    {key.replace('_', ' ')}
+                  </dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          {/* Botón de añadir al carrito */}
+          <div className="mt-8">
+            <AddToCartButton product={product} size="lg" className="w-full md:w-auto" />
+          </div>
         </div>
       </div>
     </div>

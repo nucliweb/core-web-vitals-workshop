@@ -2,8 +2,8 @@ import { Product } from '@/lib/types';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
-import { Camera, ShoppingCart } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Camera } from 'lucide-react';
+import { AddToCartButton } from '@/components/cart/AddToCartButton';
 
 interface ProductCardProps {
   product: Product;
@@ -49,10 +49,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
       <div className="absolute -bottom-12 left-0 right-0 flex justify-center bg-gradient-to-t from-background to-background/80 p-4 opacity-0 transition-all duration-300 group-hover:bottom-0 group-hover:opacity-100">
-        <Button className="w-full gap-2">
-          <ShoppingCart className="h-4 w-4" />
-          Add to Cart
-        </Button>
+        <AddToCartButton product={product} />
       </div>
     </Card>
   );
