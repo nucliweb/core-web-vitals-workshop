@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Product } from '@/lib/types';
+import { Slider } from '@/components/ui/slider';
+import { useState, useEffect } from 'react';
 
 interface FiltersSidebarProps {
   products: Product[];
@@ -150,6 +152,36 @@ export function FiltersSidebar({
         </div>
       )}
 
+      {/* Price Range Filter */}
+      <div>
+        <h3 className="mb-4 font-medium">Price Range</h3>
+        <div className="space-y-4">
+          <Slider
+            defaultValue={[minPrice, maxPrice]}
+            min={minPrice}
+            max={maxPrice}
+            step={100}
+            minStepsBetweenThumbs={1}
+            value={[
+              filters.priceRange?.[0] ?? minPrice,
+              filters.priceRange?.[1] ?? maxPrice,
+            ]}
+            onValueChange={(value) => {
+              setFilters({ ...filters, priceRange: value });
+            }}
+            className="mt-6"
+          />
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">
+              ${(filters.priceRange?.[0] ?? minPrice).toLocaleString()}
+            </span>
+            <span className="text-sm text-muted-foreground">
+              ${(filters.priceRange?.[1] ?? maxPrice).toLocaleString()}
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Stock Filter */}
       <div>
         <h3 className="mb-4 font-medium">Availability</h3>
@@ -166,49 +198,6 @@ export function FiltersSidebar({
           <label htmlFor="inStock" className="text-sm">
             In Stock Only
           </label>
-        </div>
-      </div>
-
-      {/* Price Range */}
-      <div>
-        <h3 className="mb-4 font-medium">Price Range</h3>
-        <div className="grid gap-4">
-          <div className="grid grid-cols-2 gap-2">
-            <Input
-              type="number"
-              placeholder={`Min (${minPrice})`}
-              className="h-8"
-              value={filters.priceRange?.[0] || ''}
-              onChange={(e) => {
-                const min = Number(e.target.value);
-                setFilters({
-                  ...filters,
-                  priceRange: [min, filters.priceRange?.[1] || maxPrice],
-                });
-              }}
-            />
-            <Input
-              type="number"
-              placeholder={`Max (${maxPrice})`}
-              className="h-8"
-              value={filters.priceRange?.[1] || ''}
-              onChange={(e) => {
-                const max = Number(e.target.value);
-                setFilters({
-                  ...filters,
-                  priceRange: [filters.priceRange?.[0] || minPrice, max],
-                });
-              }}
-            />
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full"
-            onClick={() => setFilters({ ...filters, priceRange: undefined })}
-          >
-            Reset Price
-          </Button>
         </div>
       </div>
     </div>

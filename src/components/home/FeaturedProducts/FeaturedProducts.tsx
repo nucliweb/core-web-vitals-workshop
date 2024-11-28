@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Camera, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { products } from '@/lib/data/products';
+import { AddToCartButton } from '@/components/cart/AddToCartButton';
 
 export function FeaturedProducts() {
   const featuredProducts = products
@@ -30,7 +31,7 @@ export function FeaturedProducts() {
               {/* Product Image */}
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={product.image}
+                  src={product.images[0]}
                   alt={product.name}
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -72,10 +73,7 @@ export function FeaturedProducts() {
 
               {/* Quick Add Button - Appears on Hover */}
               <div className="absolute -bottom-12 left-0 right-0 flex justify-center bg-gradient-to-t from-background to-background/80 p-4 opacity-0 transition-all duration-300 group-hover:bottom-0 group-hover:opacity-100">
-                <Button className="w-full gap-2">
-                  <ShoppingCart className="h-4 w-4" />
-                  Add to Cart
-                </Button>
+                <AddToCartButton product={product} className="w-full" />
               </div>
             </Card>
           ))}
