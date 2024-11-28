@@ -12,6 +12,7 @@
     "repopack": "npx repopack  --style xml --ignore 'node_modules,lib,.git,dist,.gitignore'"
   },
   "dependencies": {
+    "@chatscope/chat-ui-kit-react": "^2.0.3",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
