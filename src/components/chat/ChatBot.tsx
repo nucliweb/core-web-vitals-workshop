@@ -10,7 +10,7 @@ import {
 } from '@chatscope/chat-ui-kit-react';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { tagging } from '@/lib/analytics';
-import { X } from 'lucide-react';
+import { X, Send } from 'lucide-react';
 
 interface ChatMessage {
   message: string;
@@ -89,37 +89,35 @@ export function ChatBot({ onClose }: ChatBotProps) {
   };
 
   return (
-    <div style={{ position: 'fixed', bottom: '20px', right: '20px', width: '350px', height: '500px', zIndex: 1000 }}>
+    <div className="fixed bottom-20 right-4 z-50 h-[500px] w-[350px] rounded-lg border bg-white shadow-lg">
       <MainContainer>
+        <ConversationHeader>
+          <ConversationHeader.Content>
+            <span className="text-sm font-semibold">Asistente Virtual</span>
+          </ConversationHeader.Content>
+          <ConversationHeader.Actions>
+            <button
+              onClick={onClose}
+              className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </ConversationHeader.Actions>
+        </ConversationHeader>
         <ChatContainer>
-          <ConversationHeader>
-            <ConversationHeader.Content>
-              <span className="font-semibold">Asistente Virtual</span>
-            </ConversationHeader.Content>
-            <ConversationHeader.Actions>
-              <button 
-                onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-full"
-                data-analytics="chat-close"
-              >
-                <X size={20} />
-              </button>
-            </ConversationHeader.Actions>
-          </ConversationHeader>
-          <MessageList 
-            typingIndicator={isTyping ? <TypingIndicator content="El asistente está escribiendo" /> : null}
-          >
+          <MessageList typingIndicator={isTyping ? <TypingIndicator /> : null}>
             {messages.map((message, i) => (
-              <Message
-                key={i}
-                model={message}
-              />
+              <Message key={i} model={message} />
             ))}
           </MessageList>
-          <MessageInput 
+          <MessageInput
             placeholder="Escribe tu mensaje aquí..."
             onSend={handleSend}
             attachButton={false}
+            sendButton={true}
+            sendButtonProps={{
+              children: <Send className="h-5 w-5" />,
+            }}
           />
         </ChatContainer>
       </MainContainer>

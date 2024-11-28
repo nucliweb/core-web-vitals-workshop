@@ -11,6 +11,15 @@ interface AddToCartButtonProps {
   size?: 'default' | 'sm' | 'lg'
 }
 
+const trackAddToCart = (product: Product) => {
+  console.log('Tracking add to cart:', {
+    event: 'add_to_cart',
+    product_id: product.id,
+    product_name: product.name,
+    price: product.price
+  })
+}
+
 export function AddToCartButton({ 
   product, 
   className,
@@ -19,8 +28,13 @@ export function AddToCartButton({
   const { addItem } = useCart()
   const [isAdding, setIsAdding] = useState(false)
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     setIsAdding(true)
+    
+    // Simular un delay intencional en el tracking
+    await new Promise(resolve => setTimeout(resolve, 500))
+    trackAddToCart(product)
+    
     addItem(product)
     
     // Reset animation after a short delay

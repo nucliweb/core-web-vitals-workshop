@@ -37,7 +37,10 @@ export function ProductGallery({ images, name }: ProductGalleryProps) {
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl" aria-describedby="gallery-dialog-description">
+          <div id="gallery-dialog-description" className="sr-only">
+            Galería de imágenes del producto {name}. Use las flechas izquierda y derecha para navegar entre las imágenes.
+          </div>
           <Carousel className="w-full">
             <CarouselContent>
               {images.map((image, index) => (
