@@ -9,7 +9,7 @@ export default function ShippingPage() {
         {/* Hero Section */}
         <div className="relative mb-12 overflow-hidden rounded-lg bg-gray-900">
           <img
-            src="/src/assets/images/shipping-hero.jpg"
+            src="/images/shipping-hero.jpg"
             alt="Shipping worldwide"
             className="h-[300px] w-full object-cover opacity-50"
           />
@@ -103,7 +103,7 @@ export default function ShippingPage() {
           {/* Image Card */}
           <Card className="overflow-hidden">
             <img
-              src="/src/assets/images/shipping-packaging.jpg"
+              src="/images/shipping-packaging.jpg"
               alt="Careful packaging"
               className="h-full w-full object-cover"
             />

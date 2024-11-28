@@ -1,20 +1,18 @@
-import leica from '@/assets/images/products/leica-m6.jpg';
-import hasselblad from '@/assets/images/products/hasselblad-500cm.jpg';
-import rolleiflex from '@/assets/images/products/rolleiflex.jpg';
-import canonAE1 from '@/assets/images/products/canon-ae1.jpg';
-import nikonF3 from '@/assets/images/products/nikon-f3.jpg';
-import mamiyaRB67 from '@/assets/images/products/mamiya-rb67.jpg';
-import pentax67 from '@/assets/images/products/pentax-67.jpg';
-import olympusOM1 from '@/assets/images/products/olympus-om1.jpg';
-import minoltaX700 from '@/assets/images/products/minolta-x700.jpg';
-import yashicaMat from '@/assets/images/products/yashica-mat124g.jpg';
-import contaxG2 from '@/assets/images/products/contax-g2.jpg';
-import bronicaSQA from '@/assets/images/products/bronica-sqa.jpg';
-import voigtlander from '@/assets/images/products/voigtlander-bessa.jpg';
-import kiev88 from '@/assets/images/products/kiev-88.jpg';
-import agfaIsolette from '@/assets/images/products/agfa-isolette.jpg';
-
 import { Product } from '../types';
+
+// Función helper para obtener la URL de la imagen
+const getImageUrl = (filename: string) => `/images/products/${filename}.jpg`;
+
+// Función para obtener todas las variantes de una imagen
+const getImageVariants = (filename: string) => {
+  // En un inicio solo tenemos JPG, pero esto permitirá añadir más formatos
+  return {
+    jpg: getImageUrl(filename),
+    // Cuando se generen nuevos formatos, se pueden añadir aquí:
+    // webp: `/images/products/${filename}.webp`,
+    // avif: `/images/products/${filename}.avif`,
+  };
+};
 
 export const products: Product[] = [
   {
@@ -22,7 +20,7 @@ export const products: Product[] = [
     name: 'Leica M6',
     description: 'Classic rangefinder camera, newly remastered. Known for its exceptional build quality and precise mechanical operation.',
     price: 2999,
-    images: [leica],
+    images: [getImageUrl('leica-m6')],
     type: 'vintage',
     brand: 'Leica',
     year: 1984,
@@ -42,7 +40,7 @@ export const products: Product[] = [
     name: 'Hasselblad 500C/M',
     description: 'Medium format film camera with waist-level finder. The choice of professional photographers worldwide.',
     price: 3499,
-    images: [hasselblad],
+    images: [getImageUrl('hasselblad-500cm')],
     type: 'vintage',
     brand: 'Hasselblad',
     year: 1970,
@@ -62,7 +60,7 @@ export const products: Product[] = [
     name: 'Rolleiflex 2.8F',
     description: 'Twin-lens reflex camera in pristine condition. Renowned for its exceptional build quality and stunning image quality.',
     price: 2499,
-    images: [rolleiflex],
+    images: [getImageUrl('rolleiflex')],
     type: 'vintage',
     brand: 'Rolleiflex',
     year: 1960,
@@ -81,7 +79,7 @@ export const products: Product[] = [
     name: 'Canon AE-1',
     description: 'Iconic 35mm SLR camera from the late 70s. One of the most popular cameras ever made.',
     price: 499,
-    images: [canonAE1],
+    images: [getImageUrl('canon-ae1')],
     type: 'vintage',
     brand: 'Canon',
     year: 1976,
@@ -100,7 +98,7 @@ export const products: Product[] = [
     name: 'Nikon F3',
     description: 'Professional 35mm SLR camera. The choice of photojournalists worldwide for over a decade.',
     price: 799,
-    images: [nikonF3],
+    images: [getImageUrl('nikon-f3')],
     type: 'vintage',
     brand: 'Nikon',
     year: 1980,
@@ -118,7 +116,7 @@ export const products: Product[] = [
     name: 'Mamiya RB67',
     description: 'Professional medium format camera. Known for its modular design and exceptional image quality.',
     price: 1499,
-    images: [mamiyaRB67],
+    images: [getImageUrl('mamiya-rb67')],
     type: 'vintage',
     brand: 'Mamiya',
     year: 1970,
@@ -137,7 +135,7 @@ export const products: Product[] = [
     name: 'Pentax 67',
     description: 'Medium format SLR camera. Produces stunning 6x7 negatives with exceptional detail.',
     price: 1299,
-    images: [pentax67],
+    images: [getImageUrl('pentax-67')],
     type: 'vintage',
     brand: 'Pentax',
     year: 1969,
@@ -155,7 +153,7 @@ export const products: Product[] = [
     name: 'Olympus OM-1',
     description: 'Compact 35mm SLR camera. Revolutionary design that influenced camera design for decades.',
     price: 599,
-    images: [olympusOM1],
+    images: [getImageUrl('olympus-om1')],
     type: 'vintage',
     brand: 'Olympus',
     year: 1972,
@@ -173,7 +171,7 @@ export const products: Product[] = [
     name: 'Minolta X-700',
     description: 'Advanced 35mm SLR camera. The last and most advanced manual-focus Minolta camera.',
     price: 399,
-    images: [minoltaX700],
+    images: [getImageUrl('minolta-x700')],
     type: 'vintage',
     brand: 'Minolta',
     year: 1981,
@@ -191,7 +189,7 @@ export const products: Product[] = [
     name: 'Yashica Mat-124G',
     description: 'Twin-lens reflex medium format camera. Affordable entry into medium format photography.',
     price: 699,
-    images: [yashicaMat],
+    images: [getImageUrl('yashica-mat124g')],
     type: 'vintage',
     brand: 'Yashica',
     year: 1970,
@@ -209,7 +207,7 @@ export const products: Product[] = [
     name: 'Contax G2',
     description: 'Advanced rangefinder camera with autofocus. The pinnacle of 35mm rangefinder design.',
     price: 1899,
-    images: [contaxG2],
+    images: [getImageUrl('contax-g2')],
     type: 'vintage',
     brand: 'Contax',
     year: 1996,
@@ -229,7 +227,7 @@ export const products: Product[] = [
     name: 'Bronica SQ-A',
     description: 'Professional medium format SLR camera. Modular system with exceptional image quality.',
     price: 999,
-    images: [bronicaSQA],
+    images: [getImageUrl('bronica-sqa')],
     type: 'vintage',
     brand: 'Bronica',
     year: 1982,
@@ -247,7 +245,7 @@ export const products: Product[] = [
     name: 'Voigtländer Bessa R3A',
     description: 'Modern manual rangefinder camera. Combines classic design with modern features.',
     price: 899,
-    images: [voigtlander],
+    images: [getImageUrl('voigtlander-bessa')],
     type: 'vintage',
     brand: 'Voigtländer',
     year: 2004,
@@ -265,7 +263,7 @@ export const products: Product[] = [
     name: 'Kiev 88',
     description: 'Soviet medium format camera. Based on the Hasselblad design with unique characteristics.',
     price: 599,
-    images: [kiev88],
+    images: [getImageUrl('kiev-88')],
     type: 'vintage',
     brand: 'Kiev',
     year: 1979,
@@ -284,7 +282,7 @@ export const products: Product[] = [
     name: 'Agfa Isolette III',
     description: 'Classic folding medium format camera. Compact and capable of excellent results.',
     price: 299,
-    images: [agfaIsolette],
+    images: [getImageUrl('agfa-isolette')],
     type: 'vintage',
     brand: 'Agfa',
     year: 1954,

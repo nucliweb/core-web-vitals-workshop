@@ -16,7 +16,7 @@ export default function ReturnsPage() {
         {/* Hero Section */}
         <div className="relative mb-12 overflow-hidden rounded-lg bg-gray-900">
           <img
-            src="/src/assets/images/returns-hero.jpg"
+            src="/images/returns-hero.jpg"
             alt="Returns and Refunds"
             className="h-[300px] w-full object-cover opacity-50"
           />
@@ -146,7 +146,7 @@ export default function ReturnsPage() {
         <div className="mt-8">
           <Card className="overflow-hidden">
             <img
-              src="/src/assets/images/returns-vintage-cameras.jpg"
+              src="/images/returns-vintage-cameras.jpg"
               alt="Vintage cameras collection"
               className="h-[300px] w-full object-cover"
             />
