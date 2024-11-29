@@ -3,19 +3,25 @@ import { useEffect, useState } from 'react';
 interface AdvertisementProps {
   width?: number;
   height?: number;
+  delay?: number;
 }
 
 export const Advertisement = ({
   width = 728,
   height = 90,
+  delay = 0,
 }: AdvertisementProps) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [adHeight, setAdHeight] = useState(0);
 
   useEffect(() => {
-    setIsVisible(true);
-    setAdHeight(height);
-  }, []);
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+      setAdHeight(height);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [delay, height]);
 
   return (
     <div
@@ -32,7 +38,7 @@ export const Advertisement = ({
         overflow: 'hidden',
       }}
     >
-      {isVisible ? (
+      {isLoaded ? (
         <div>
           <p style={{ margin: 0, textAlign: 'center', color: '#666' }}>
             Advertisement

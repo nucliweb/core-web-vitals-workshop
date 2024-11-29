@@ -26,8 +26,8 @@ export default function ContactPage() {
   });
 
   const onSubmit = async (data: FormData) => {
-    // Remove artificial delay
-    await sendContactForm(data);
+    // Simular envío del formulario
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log(data);
     alert('Message sent successfully!');
   };
