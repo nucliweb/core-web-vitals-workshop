@@ -12,23 +12,21 @@ export const Advertisement = ({
   delay = 0,
 }: AdvertisementProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [adHeight, setAdHeight] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
-      setAdHeight(height);
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [delay, height]);
+  }, [delay]);
 
   return (
     <div
       style={{
         maxWidth: '100%',
         width: `${width}px`,
-        height: `${adHeight}px`,
+        height: `${height}px`, // Height fija desde el inicio
         backgroundColor: '#f0f0f0',
         margin: '1rem auto',
         display: 'flex',
@@ -36,9 +34,13 @@ export const Advertisement = ({
         justifyContent: 'center',
         border: '1px dashed #ccc',
         overflow: 'hidden',
+        opacity: isLoaded ? 1 : 0, // Usamos opacity en lugar de height
+        transition: 'opacity 0.3s ease', // Transición suave
       }}
+      aria-label="Advertisement"
+      role="complementary"
     >
-      {isLoaded ? (
+      {isLoaded && (
         <div>
           <p style={{ margin: 0, textAlign: 'center', color: '#666' }}>
             Advertisement
@@ -54,10 +56,6 @@ export const Advertisement = ({
             {width}x{height}
           </p>
         </div>
-      ) : (
-        <p style={{ margin: 0, textAlign: 'center', color: '#999' }}>
-          Loading ad...
-        </p>
       )}
     </div>
   );
