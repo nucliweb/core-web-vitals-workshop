@@ -27,20 +27,19 @@ export function AddToCartButton({
 }: AddToCartButtonProps) {
   const { addItem } = useCart()
   const [isAdding, setIsAdding] = useState(false)
+  const [added, setAdded] = useState(false)
 
   const handleAddToCart = async () => {
     setIsAdding(true)
-    
-    // Simular un delay intencional en el tracking
-    await new Promise(resolve => setTimeout(resolve, 500))
-    trackAddToCart(product)
-    
-    addItem(product)
-    
-    // Reset animation after a short delay
-    setTimeout(() => {
+    try {
+      trackAddToCart(product)
+      await addItem(product)
       setIsAdding(false)
-    }, 1000)
+      setAdded(true)
+      setAdded(false)
+    } catch (error) {
+      setIsAdding(false)
+    }
   }
 
   return (
@@ -57,6 +56,8 @@ export function AddToCartButton({
       {!product.inStock
         ? 'Out of Stock'
         : isAdding
+        ? 'Adding to Cart...'
+        : added
         ? 'Added to Cart!'
         : 'Add to Cart'}
     </Button>

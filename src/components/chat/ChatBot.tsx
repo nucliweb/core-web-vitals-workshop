@@ -61,18 +61,16 @@ export function ChatBot({ onClose }: ChatBotProps) {
     });
 
     // Simulate bot response
-    setTimeout(() => {
-      const response = generateResponse(message.toLowerCase());
-      const botResponse: ChatMessage = {
-        message: response,
-        sentTime: new Date().toLocaleTimeString(),
-        sender: 'bot',
-        direction: 'incoming',
-      };
+    const response = generateResponse(message.toLowerCase());
+    const botResponse: ChatMessage = {
+      message: response,
+      sentTime: new Date().toLocaleTimeString(),
+      sender: 'bot',
+      direction: 'incoming',
+    };
 
-      setMessages((prev) => [...prev, botResponse]);
-      setIsTyping(false);
-    }, 1000);
+    setMessages((prev) => [...prev, botResponse]);
+    setIsTyping(false);
   };
 
   const generateResponse = (message: string): string => {
