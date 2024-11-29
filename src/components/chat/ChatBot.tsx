@@ -6,7 +6,6 @@ import {
   Message,
   MessageInput,
   TypingIndicator,
-  ConversationHeader,
 } from '@chatscope/chat-ui-kit-react';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { tagging } from '@/lib/analytics';
@@ -90,20 +89,19 @@ export function ChatBot({ onClose }: ChatBotProps) {
 
   return (
     <div className="fixed bottom-20 right-4 z-50 h-[500px] w-[350px] rounded-lg border bg-white shadow-lg">
+      {/* Custom header */}
+      <div className="flex items-center justify-between border-b px-4 py-3">
+        <span className="text-sm font-semibold">Asistente Virtual</span>
+        <button
+          onClick={onClose}
+          className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100"
+          aria-label="Cerrar chat"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
       <MainContainer>
-        <ConversationHeader>
-          <ConversationHeader.Content>
-            <span className="text-sm font-semibold">Asistente Virtual</span>
-          </ConversationHeader.Content>
-          <ConversationHeader.Actions>
-            <button
-              onClick={onClose}
-              className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </ConversationHeader.Actions>
-        </ConversationHeader>
         <ChatContainer>
           <MessageList typingIndicator={isTyping ? <TypingIndicator /> : null}>
             {messages.map((message, i) => (
