@@ -13,6 +13,7 @@ import ReturnsPage from '@/pages/returns'
 import ContactPage from '@/pages/contact'
 import { GifModal } from '@/components/ui/gif-modal'
 import { ConfirmationModal } from '@/components/ui/confirmation-modal'
+import LongTasksPage from '@/pages/examples/long-tasks'
 
 function AppModals() {
   const { 
@@ -64,6 +65,7 @@ function App() {
                   <Route path="/shipping" element={<ShippingPage />} />
                   <Route path="/returns" element={<ReturnsPage />} />
                   <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/examples/long-tasks" element={<LongTasksPage />} />
                 </Routes>
               </RootLayout>
               <AppModals />
