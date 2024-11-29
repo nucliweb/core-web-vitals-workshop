@@ -4,14 +4,12 @@ interface AdvertisementProps {
   width?: number;
   height?: number;
   delay?: number;
-  position?: 'top' | 'middle' | 'bottom';
 }
 
 export const Advertisement = ({
-  width = 300,
-  height = 250,
+  width = 728,
+  height = 90,
   delay = 0,
-  position = 'middle',
 }: AdvertisementProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [adHeight, setAdHeight] = useState(0);
