@@ -2,6 +2,7 @@ import { Product } from '@/lib/types';
 import { ProductCard } from '../ProductCard/ProductCard';
 import { ProductCardSkeleton } from '../ProductCard/ProductCardSkeleton';
 import { Advertisement } from '@/components/common/Advertisement';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 
 interface ProductGridProps {
   products: Product[];
@@ -36,7 +37,17 @@ export function ProductGrid({ products, isLoading }: ProductGridProps) {
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {/* Top advertisement - visible immediately */}
       <div className="col-span-full w-full">
-        <Advertisement width={728} height={90} />
+        <ErrorBoundary 
+          errorType="info"
+          autoReset={true}
+          resetTimeout={3000}
+          onError={(error, errorInfo) => {
+            // Aquí podrías enviar el error a un servicio de tracking
+            console.log('Ad error:', error, errorInfo);
+          }}
+        >
+          <Advertisement width={728} height={90} />
+        </ErrorBoundary>
       </div>
 
       {products.map((product, index) => (
@@ -45,16 +56,34 @@ export function ProductGrid({ products, isLoading }: ProductGridProps) {
           {/* Add advertisements after first and second products */}
           {(index === 0 || index === 1) && (
             <div className="col-span-full w-full">
-              <Advertisement width={300} height={250} />
+              <ErrorBoundary
+                errorType="warning"
+                autoReset={true}
+                resetTimeout={5000}
+              >
+                <Advertisement width={300} height={250} />
+              </ErrorBoundary>
             </div>
           )}
           {/* Additional ads every 4 products after the initial ones */}
           {index > 1 && (index + 1) % 4 === 0 && (
             <div className="col-span-full w-full">
               {index % 2 === 0 ? (
-                <Advertisement width={300} height={250} />
+                <ErrorBoundary
+                  errorType="warning"
+                  autoReset={true}
+                  resetTimeout={5000}
+                >
+                  <Advertisement width={300} height={250} />
+                </ErrorBoundary>
               ) : (
-                <Advertisement width={728} height={90} />
+                <ErrorBoundary
+                  errorType="warning"
+                  autoReset={true}
+                  resetTimeout={5000}
+                >
+                  <Advertisement width={728} height={90} />
+                </ErrorBoundary>
               )}
             </div>
           )}
