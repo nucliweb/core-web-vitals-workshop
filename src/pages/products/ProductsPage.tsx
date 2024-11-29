@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -43,10 +43,12 @@ export default function ProductsPage() {
   const [filters, setFilters] = useState<Filters>({});
   const [sort, setSort] = useState('newest');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Aplicar filtros y búsqueda
   const filteredProducts = useMemo(() => {
-    return mockProducts.filter((product) => {
+    setIsLoading(true);
+    const result = mockProducts.filter((product) => {
       // Aplicar término de búsqueda
       if (searchTerm) {
         const searchLower = searchTerm.toLowerCase();
@@ -99,6 +101,8 @@ export default function ProductsPage() {
 
       return true;
     });
+    setIsLoading(false);
+    return result;
   }, [mockProducts, filters, searchTerm]);
 
   // Ordenar productos
@@ -211,7 +215,7 @@ export default function ProductsPage() {
               />
 
               {sortedProducts.length > 0 ? (
-                <ProductGrid products={sortedProducts} />
+                <ProductGrid products={sortedProducts} isLoading={isLoading} />
               ) : (
                 <div className="flex min-h-[400px] items-center justify-center text-center">
                   <div className="max-w-md space-y-2">
