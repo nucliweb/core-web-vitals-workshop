@@ -5,15 +5,23 @@ import { Camera, ShoppingBag } from 'lucide-react';
 export function ImageHero() {
   return (
     <div className="relative min-h-[80vh] w-full">
-      {/* Imagen de fondo */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url("https://images.unsplash.com/photo-1510127034890-ba27508e9f1c")`,
-        }}
+      {/* Hero Image con optimizaciones para LCP */}
+      <img
+        src="https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=2000&q=80"
+        srcSet="
+          https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=800&q=80 800w,
+          https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=1200&q=80 1200w,
+          https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=2000&q=80 2000w
+        "
+        sizes="100vw"
+        alt="Vintage camera collection hero image"
+        className="absolute inset-0 h-full w-full object-cover"
+        fetchPriority="high"
+        decoding="sync"
+        loading="eager"
       />
 
-      {/* Gradiente multicapa para mejor contraste */}
+      {/* Gradientes para contraste */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
@@ -25,8 +33,11 @@ export function ImageHero() {
             Limited Time Collection
           </div>
 
-          {/* Títulos con sombra sutil para mayor legibilidad */}
-          <h1 className="mt-6 font-serif text-4xl font-bold tracking-tight text-white drop-shadow-sm sm:text-5xl md:text-6xl">
+          {/* Títulos optimizados para LCP */}
+          <h1 
+            className="mt-6 font-serif text-4xl font-bold tracking-tight text-white drop-shadow-sm sm:text-5xl md:text-6xl"
+            style={{ contentVisibility: 'auto' }}
+          >
             Capture Moments,
             <span className="block text-white opacity-80">
               Preserve History
@@ -53,12 +64,10 @@ export function ImageHero() {
             <Button
               asChild
               size="lg"
-              className="gap-2 border-white bg-white/10 text-white backdrop-blur hover:bg-white/20"
+              variant="outline"
+              className="border-white/10 bg-white/5 text-white backdrop-blur hover:bg-white/10"
             >
-              <Link to="/collections">
-                <Camera className="h-5 w-5" />
-                Our Collections
-              </Link>
+              <Link to="/collections">View Collections</Link>
             </Button>
           </div>
 
