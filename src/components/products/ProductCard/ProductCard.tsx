@@ -11,13 +11,13 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   return (
-    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <Card className="group relative overflow-hidden transform-gpu motion-safe:transition-[transform,filter] motion-safe:duration-300 hover:translate-y-[-2px] hover:filter-[drop-shadow(0_8px_16px_rgb(0_0_0_/0.1))]">
       <Link to={`/products/${product.id}`}>
         <div className="relative aspect-square overflow-hidden">
           <img
             src={product.images[0]}
             alt={product.name}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transform-gpu transition-transform duration-300 group-hover:scale-105"
           />
           {product.type === 'vintage' && (
             <div className="absolute left-3 top-3">
@@ -48,7 +48,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
       </Link>
-      <div className="absolute -bottom-12 left-0 right-0 flex justify-center bg-gradient-to-t from-background to-background/80 p-4 opacity-0 transition-all duration-300 group-hover:bottom-0 group-hover:opacity-100">
+      <div className="absolute inset-x-0 bottom-0 flex justify-center translate-y-full group-hover:translate-y-0 bg-gradient-to-t from-background to-background/80 p-4 opacity-0 motion-safe:transition-[transform,opacity] motion-safe:duration-200 group-hover:opacity-100">
         <AddToCartButton product={product} />
       </div>
     </Card>
