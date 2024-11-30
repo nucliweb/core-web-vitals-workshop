@@ -9,7 +9,7 @@ interface AdvertisementProps {
 export const Advertisement = ({
   width = 728,
   height = 90,
-  delay = 0,
+  delay = 300,
 }: AdvertisementProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [adHeight, setAdHeight] = useState(0);

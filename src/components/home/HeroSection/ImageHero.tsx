@@ -16,7 +16,6 @@ export function ImageHero() {
         sizes="100vw"
         alt="Vintage camera collection hero image"
         className="absolute inset-0 h-full w-full object-cover"
-        fetchPriority="high"
         decoding="sync"
         loading="eager"
       />
@@ -34,7 +33,7 @@ export function ImageHero() {
           </div>
 
           {/* Títulos optimizados para LCP */}
-          <h1 
+          <h1
             className="mt-6 font-serif text-4xl font-bold tracking-tight text-white drop-shadow-sm sm:text-5xl md:text-6xl"
             style={{ contentVisibility: 'auto' }}
           >

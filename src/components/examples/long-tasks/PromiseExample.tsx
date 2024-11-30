@@ -3,35 +3,49 @@ import { heavyTask } from './utils/heavyTask';
 
 export function PromiseExample() {
   const [status, setStatus] = useState<string>('');
+  const [timing, setTiming] = useState<string[]>([]);
+
+  const logTiming = (message: string) => {
+    const time = performance.now().toFixed(2);
+    const logMessage = `${message} at ${time}ms`;
+    console.log(logMessage);
+    setTiming(prev => [...prev, logMessage]);
+  };
 
   // Bad example - Blocking promise
   const handleBadPromise = () => {
-    console.log(`Bad Promise clicked at: ${performance.now().toFixed(2)}ms`);
+    setTiming([]); // Reset timing logs
+    logTiming('Bad Promise clicked');
     setStatus('Starting...');
     
     new Promise<void>((resolve) => {
-      console.log(`Bad Promise executor running at: ${performance.now().toFixed(2)}ms`);
-      heavyTask();
+      logTiming('Bad Promise executor running');
+      heavyTask(); // Bloquea el hilo principal inmediatamente
+      logTiming('Bad Promise task completed');
       resolve();
     }).then(() => {
-      console.log(`Bad Promise .then running at: ${performance.now().toFixed(2)}ms`);
+      logTiming('Bad Promise .then running');
       setStatus('Completed (blocking)');
     });
   };
 
   // Better example - Promise con setTimeout
   const handleBetterPromise = () => {
-    console.log(`Better Promise clicked at: ${performance.now().toFixed(2)}ms`);
+    setTiming([]); // Reset timing logs
+    logTiming('Better Promise clicked');
     setStatus('Processing...');
 
     new Promise<void>((resolve) => {
+      logTiming('Better Promise executor start');
       setTimeout(() => {
-        console.log(`Better Promise setTimeout at: ${performance.now().toFixed(2)}ms`);
+        logTiming('Better Promise setTimeout callback');
         heavyTask();
+        logTiming('Better Promise task completed');
         resolve();
       }, 0);
+      logTiming('Better Promise setTimeout scheduled');
     }).then(() => {
-      console.log(`Better Promise .then at: ${performance.now().toFixed(2)}ms`);
+      logTiming('Better Promise .then running');
       setStatus('Completed (better INP)');
     });
   };
@@ -54,9 +68,12 @@ export function PromiseExample() {
       </div>
       <div className="space-y-2">
         <p className="text-muted-foreground">{status}</p>
-        <p className="text-sm text-muted-foreground">
-          Check the console to see detailed timing information
-        </p>
+        <div className="text-sm text-muted-foreground space-y-1">
+          <p className="font-semibold">Timing Log:</p>
+          {timing.map((log, index) => (
+            <p key={index} className="ml-4">{log}</p>
+          ))}
+        </div>
       </div>
     </div>
   );
