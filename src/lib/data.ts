@@ -43,3 +43,16 @@ export const products: Product[] = [
     ]
   }
 ]
+
+export const examples = [
+  {
+    title: 'Long Tasks',
+    description: 'Optimizing long-running tasks to improve INP',
+    path: '/examples/long-tasks',
+  },
+  {
+    title: 'Yield to Main',
+    description: 'Different techniques for yielding to the main thread',
+    path: '/examples/yield-to-main',
+  },
+]
